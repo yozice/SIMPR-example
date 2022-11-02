@@ -35,7 +35,6 @@ namespace WinFormsApp1
                 wparam = Convert.ToInt32(m.WParam.ToString());
                 wparamhi = wparam / 65536;
                 wparamlo = wparam - wparamhi * 65536;
-                f.SetMessage(lParam.ToString());
 
                 switch (wparamhi)
                 {
@@ -53,7 +52,6 @@ namespace WinFormsApp1
                                         }
                                         else
                                         {
-                                            f.SetMessage(lParam.ToString());
                                             m.Result = new IntPtr(0);
                                         }
                                         f.AddLineToLogs(lParam.ToString());
@@ -70,11 +68,9 @@ namespace WinFormsApp1
                                 switch (lParam)
                                 {
                                     case 1:
-                                        f.SetMessage(lParam.ToString());
                                         m.Result = new IntPtr(1);
                                         break;
                                     case 2:
-                                        f.SetMessage(lParam.ToString());
                                         m.Result = new IntPtr(1);
                                         break;
                                     default:
