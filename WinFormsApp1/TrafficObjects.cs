@@ -184,9 +184,9 @@ namespace WinFormsApp1
                 speed = 0;
             }
 
-            public void Start(int SpeedVal)
+            public void Start()
             {
-                speed = SpeedVal;
+                speed = (int)SpeedValue.Medium;
             }
 
             public void SlowDown()

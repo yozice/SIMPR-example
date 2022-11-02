@@ -67,6 +67,10 @@ namespace WinFormsApp1
 
         public void AddLineToLogs(string m)
         {
+            if (textBox1.TextLength > 10000)
+            {
+                textBox1.Text = "";
+            }
             textBox1.Text += m + Environment.NewLine;
         }
 
