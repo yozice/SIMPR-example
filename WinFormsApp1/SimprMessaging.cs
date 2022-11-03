@@ -13,12 +13,15 @@ namespace WinFormsApp1
         [DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Auto)]
         static extern uint RegisterWindowMessage(string lpString);
 
-        uint simprMsgId;
+        uint simprMsgIdCond;
+        uint simprMsgIdAct;
+
         public Form1 f;
 
         public SimprMessaging(Form1 form)
         {
-            simprMsgId = RegisterWindowMessage("MyMessage");
+            simprMsgIdCond = RegisterWindowMessage("MyMessageCond");
+            simprMsgIdAct = RegisterWindowMessage("MyMessageAct");
             this.AssignHandle(form.Handle);
             f = form;
         }
@@ -30,7 +33,7 @@ namespace WinFormsApp1
             int wparam;
             int lParam = Convert.ToInt32(m.LParam.ToString());
 
-            if (m.Msg == simprMsgId)
+            if (m.Msg == simprMsgIdCond)
             {
                 wparam = Convert.ToInt32(m.WParam.ToString());
                 wparamhi = wparam / 65536;
@@ -224,7 +227,7 @@ namespace WinFormsApp1
                                 switch (lParam)
                                 {
                                     case 1:
-                                        if (f.AutoRRandom.Location.X >= 530 && f.AutoRRandom.Location.X <= 515)
+                                        if (f.AutoRRandom.Location.X >= 530 && f.AutoRRandom.Location.X <= 550)
                                         {
                                             m.Result = new IntPtr(1);
                                             f.AddLineToLogs("Машина справа");
@@ -453,7 +456,7 @@ namespace WinFormsApp1
                                 switch (lParam)
                                 {
                                     case 1:
-                                        if (f.AutoRRandom.Location.X >= 225 && f.AutoRRandom.Location.X <= 240)
+                                        if (f.AutoLRandom.Location.X >= 250 && f.AutoLRandom.Location.X <= 380)
                                         {
                                             m.Result = new IntPtr(1);
                                             f.AddLineToLogs("Машина слева");
@@ -508,7 +511,7 @@ namespace WinFormsApp1
                                         }
                                         break;
                                     case 6:
-                                        if (f.AutoRRandom.Location.X >= 385 && f.AutoRRandom.Location.X <= 400)
+                                        if (f.AutoLRandom.Location.X >= 400 && f.AutoLRandom.Location.X <= 450)
                                         {
                                             m.Result = new IntPtr(1);
                                             f.AddLineToLogs("Машина на перекрестке");
@@ -519,7 +522,7 @@ namespace WinFormsApp1
                                         }
                                         break;
                                     case 7:
-                                        if (f.AutoRRandom.Location.X >= 400 && f.AutoRRandom.Location.X <= 500)
+                                        if (f.AutoRRandom.Location.X >= 430 && f.AutoRRandom.Location.X <= 500)
                                         {
                                             m.Result = new IntPtr(1);
                                             f.AddLineToLogs("Машина навстречу");
@@ -542,7 +545,19 @@ namespace WinFormsApp1
                                 break;
                         }
                         break;
-                    case 1: // Действия
+                    default:
+                        break;
+                }
+            }
+            else if (m.Msg == simprMsgIdAct)
+            {
+                wparam = Convert.ToInt32(m.WParam.ToString());
+                wparamhi = wparam / 65536;
+                wparamlo = wparam - wparamhi * 65536;
+
+                switch(wparamhi)
+                {
+                    case 0:
                         switch (wparamlo)
                         {
                             #region Table2Actions
@@ -669,8 +684,10 @@ namespace WinFormsApp1
                         m.Result = new IntPtr(1);
                         break;
                     default:
+                        m.Result = new IntPtr(1);
                         break;
                 }
+
             }
             else
             {
